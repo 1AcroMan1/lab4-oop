@@ -1,0 +1,120 @@
+#include <iostream>
+class Dog
+{
+public:
+	Dog();
+	~Dog() { std::cout << "Dog deleted" << std::endl; };
+	Dog(int _weight);
+	virtual void Show();
+	void Talk();
+private:
+	int weight;
+};
+void Dog::Show()
+{
+	std::cout <<"Weight:" << weight << std::endl;
+};
+void Dog::Talk()
+{
+	std::cout << ".." << std::endl;
+};
+Dog::Dog(int _weight)
+{
+	weight = _weight;
+	std::cout << "Dog created" << std::endl;
+};
+Dog::Dog()
+{
+	weight = 10;
+	std::cout << "Dog created" << std::endl;
+};
+class Human
+{
+public:
+	Human();
+	~Human();
+	Human(int _iq);
+	virtual void Show();
+	void Jump();
+private:
+	int iq;
+};
+void Human::Show()
+{
+	std::cout << "IQ:" << iq << std::endl;
+};
+void Human::Jump()
+{
+	std::cout << "Jumped" << std::endl;
+};
+Human::Human(int _iq)
+{
+	iq = _iq;
+	std::cout << "Human created" << std::endl;
+};
+Human::Human()
+{
+	iq = 40;
+	std::cout << "Human created" << std::endl;
+};
+Human::~Human()
+{
+	std::cout << "Human deleted" << std::endl;
+};
+class Chimera : public Dog, public Human
+{
+public:
+	Chimera(int _iq, int _weight, int _speed, std::string _name) :Dog(_iq), Human(_weight), speed(_speed), name(_name) { std::cout << "Chimera created" << std::endl; };
+	Chimera();
+	~Chimera() { std::cout << "Chimera deleted" << std::endl; };
+	void Walk();
+	void Show();
+private:
+	int speed;
+	std::string name;
+};
+Chimera::Chimera() :Dog(), Human() {
+	speed = 3;
+	name = "Test object";
+	std::cout << "Chimera created" << std::endl;
+};
+void Chimera::Walk()
+{
+	std::cout << "Chimera walking" << std::endl;
+};
+void Chimera::Show()
+{
+	Dog::Show();
+	Human::Show();
+	std::cout << "Speed: " << speed << std::endl;
+	std::cout << "Name: " << name << std::endl;
+}
+void ClientCode()
+{
+	Chimera* ch1 = new Chimera(80, 100, 4, "Chimera");
+	Chimera* ch2 = new Chimera();
+	std::cout << "__________________" << std::endl;
+	std::cout << "First Chimera" << std::endl;
+	ch1->Show();
+	ch1->Jump();
+	ch1->Talk();
+	ch1->Walk();
+	ch1->Human::Show();
+	ch1->Dog::Show();
+	std::cout << "__________________" << std::endl;
+	std::cout << "Second Chimera" << std::endl;
+	ch2->Show();
+	ch2->Jump();
+	ch2->Talk();
+	ch2->Walk();
+	ch2->Human::Show();
+	ch2->Dog::Show();
+	std::cout << "__________________" << std::endl;
+	delete(ch1);
+	delete(ch2);
+}
+int main()
+{
+	ClientCode();
+	return 0;
+}
